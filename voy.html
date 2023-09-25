@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Seats Reservation</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bus-container {
+            display: flex;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns for both left and right */
+            gap: 10px;
+            width: 200px; /* Smaller width */
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        .left-seats,
+        .right-seats {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .seat {
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            
+        }
+        .seat-pic{
+            width: 60px;
+            height: 45px;
+        }
+        #right-seats{
+            padding-left: 35px;
+        }
+        .container{
+            justify-content: flex-end;
+        }
+        .main{
+            background-image: url('bg.png');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="form-group">
+            <label for="select-seats">Select the total number of seats:</label>
+            <select class="form-control" id="select-seats">
+                <option value="20">20Seats</option>
+                <option value="40">40Seats</option>
+                <option value="30">30Seats</option>
+            </select>
+        </div>
+    </div>
+    <div class="main">
+
+        <div class="bus-container">
+            <div class="left-seats" id="left-seats">
+                <!-- Left seat elements will be generated here -->
+            </div>
+          
+            <div class="left-seats" id="left-seats2">
+                <!-- Left seat elements will be generated here -->
+            </div>  
+            <div class="right-seats" id="right-seats">
+                <!-- Right seat elements will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS (jQuery is required) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        // Function to generate bus seat elements
+        function generateBusSeats(numSeats) {
+            const leftSeatsDiv = document.getElementById('left-seats');
+            const rightSeatsDiv = document.getElementById('right-seats');
+            const leftSeatsDiv2 = document.getElementById('left-seats2');
+
+
+            leftSeatsDiv.innerHTML = ''; // Clear previous seat elements
+            rightSeatsDiv.innerHTML = ''; // Clear previous seat elements
+            leftSeatsDiv2.innerHTML = ''; // Clear previous seat elements
+
+            const totalSeats = numSeats;
+            const leftSeats = Math.ceil(totalSeats / 2);
+            const rightSeats = totalSeats - leftSeats;
+
+            for (let i = 1; i <= leftSeats; i++) {
+                const seatElement = document.createElement('div');
+                seatElement.classList.add('seat');
+                seatElement.innerHTML = `
+                    <img src="seats.jpg" class="seat-pic" alt="Seat"><br>
+                    <span>Seat ${i}</span>
+                `;
+                seatElement.addEventListener('click', () => {
+                    alert(`You selected Seat ${i}`);
+                });
+                leftSeatsDiv.appendChild(seatElement);
+            }
+            
+
+            for (let i = leftSeats + 1; i <= totalSeats; i++) {
+                const seatElement = document.createElement('div');
+                seatElement.classList.add('seat');
+                seatElement.innerHTML = `
+                    <img src="seats.jpg" class="seat-pic" alt="Seat"><br>
+                    <span>Seat ${i}</span>
+                `;                seatElement.addEventListener('click', () => {
+                    alert(`You selected Seat ${i}`);
+                });
+                rightSeatsDiv.appendChild(seatElement);
+            }
+            
+        }
+
+        // Get reference to the select element
+        const selectSeats = document.getElementById('select-seats');
+
+        // Add an event listener to the select element
+        selectSeats.addEventListener('change', function() {
+            const selectedSeats = parseInt(selectSeats.value, 10);
+            generateBusSeats(selectedSeats);
+        });
+
+        // Initialize with default number of seats
+        generateBusSeats(parseInt(selectSeats.value, 10));
+    </script>
+</body>
+</html>
